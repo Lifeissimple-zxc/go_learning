@@ -1,2 +1,5 @@
 # Ignore any sort of executables
 *.exe
+
+# Ignore one-off scripts
+random_stuff/
