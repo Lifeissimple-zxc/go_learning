@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
+	"os"
 	"strings"
+	"time"
 )
 
 // Creating a new custom deck type (it is a slice of strings)
@@ -49,4 +52,39 @@ func (d deck) saveToFile(filename string) error {
 		[]byte(d.toString()),
 		0666,
 	)
+}
+
+func newDeckFromFile(filename string) deck {
+	bs, err := ioutil.ReadFile(filename)
+	// Check for error
+	if err != nil {
+		// Option 1 - log error + return a new deck
+		// Option 2 - no new deck ==> terrible error (log it) ==> quit the program
+		// The author goes for option 2 in the course
+		fmt.Println("Error: ", err)
+		os.Exit(1)
+	}
+	// Getting here means we can return our dec
+	// We need to convert bytes to a string before we return!
+	s := strings.Split(string(bs), ",")
+	// Type conversion from a slice of string to a deck
+	return deck(s)
+}
+
+func (d deck) shuffle() {
+	// Precautions to make our shuffling truly random
+	// Create our source (seed) using unix nanoseconds as input
+	// Using unix nano makes the source truly random
+	source := rand.NewSource(time.Now().UnixNano())
+	// Create our new random generator
+	r := rand.New(source)
+	// Modifies order of cards in the deck d
+	for i := range d {
+		// Generate a random integer
+		// newPosition := rand.Intn(len(d) - 1) // not truly random
+		newPosition := r.Intn(len(d) - 1)
+		// Swap card posititons
+		d[i], d[newPosition] = d[newPosition], d[i]
+	}
+
 }
