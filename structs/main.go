@@ -35,8 +35,9 @@ func main() {
 		}, // comma is needed too!
 	}
 	// Update first name of a person
-	jimP := &jim // & before a variable gives us its pointer
-	jimP.updateName("Jimmy")
+	// jimP := &jim // & before a variable gives us its memory address
+	// jimP does not point to jim, but the memory address of jim
+	jim.updateName("Jimmy")
 	// fmt.Println(jim) // show info in stdout, simple
 	jim.printVerbose()
 
@@ -48,6 +49,7 @@ func (pToPerson *person) updateName(newFirstName string) {
 
 	// Using pointers to update the person
 	(*pToPerson).firstName = newFirstName
+	// *pToPerson gives us the actual structs sitting in the address
 }
 
 // Function with struct receiver
