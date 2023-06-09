@@ -3,6 +3,10 @@ package main
 import "fmt"
 
 // Declaring types
+type bot interface {
+	getGreeting() string
+}
+
 type englishBot struct{}
 type spanishBot struct{}
 
@@ -11,7 +15,7 @@ func main() {
 	sb := spanishBot{}
 
 	printGreeting(eb)
-	printGreetingSb(sb)
+	printGreeting(sb)
 
 }
 
@@ -27,12 +31,17 @@ func (spanishBot) getGreeting() string {
 	return "Ola!"
 }
 
-// Kinda duplicate function with different input type
-// Not implementable this way
-func printGreeting(eb englishBot) {
-	fmt.Println(eb.getGreeting())
+// Interface-based pringGreeting implementation
+func printGreeting(b bot) {
+	fmt.Println(b.getGreeting())
 }
 
-func printGreeting(sb spanishBot) {
-	fmt.Println(sb.getGreeting())
-}
+// Kinda duplicate function with different input type
+// Not implementable this way so commenting out
+// func printGreeting(eb englishBot) {
+// 	fmt.Println(eb.getGreeting())
+// }
+
+// func printGreeting(sb spanishBot) {
+// 	fmt.Println(sb.getGreeting())
+// }
