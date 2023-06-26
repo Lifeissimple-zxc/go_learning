@@ -1,0 +1,3 @@
+car
+sky
+elephant
