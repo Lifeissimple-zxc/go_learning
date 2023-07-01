@@ -40,5 +40,6 @@ func main() {
 			os.Exit(1)
 		}
 		resp.Body.Close() // Needed to avoid resource leaks, can be used with defer
+		// Test comment
 	}
 }
