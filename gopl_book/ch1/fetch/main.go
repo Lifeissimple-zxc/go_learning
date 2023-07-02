@@ -19,7 +19,7 @@ func main() {
 	for _, url := range os.Args[1:] {
 		// 1.8  Make sure we add https:// to all the urls
 		urlBase := "https://"
-		if !(strings.Contains(url, urlBase)) {
+		if !(strings.Contains(url, "http://")) {
 			url = urlBase + url
 		}
 		resp, err := http.Get(url) // Makes a get request

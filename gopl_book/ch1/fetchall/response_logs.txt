@@ -223,3 +223,26 @@ Got an error for url https://psvhome.ru. Details: Get "https://psvhome.ru": dial
 
 2.51s  385532 https://baidu.com
 Exec time: 2.51
+0.29s   92460 https://openai.com
+0.34s   75729 https://wikipedia.org
+0.37s   18220 https://google.com
+0.44s   12834 https://yandex.ru
+0.51s   90102 https://bing.com
+0.55s  691636 https://youtube.com
+0.57s   59921 https://facebook.com
+0.57s   38088 https://live.com
+0.68s  244611 https://instagram.com
+0.79s  113947 https://vk.com
+0.94s  248430 https://whatsapp.com
+1.06s 1200731 https://yahoo.com
+1.12s   24558 https://linkedin.com
+1.34s  120038 https://qq.com
+1.55s  963659 https://reddit.com
+Got an error for url https://twitter.com. Details: Get "/i/flow/login?redirect_after_login=%!F(MISSING)": stopped after 10 redirects
+
+1.91s  385841 https://baidu.com
+2.11s   38732 https://zhihu.com
+2.33s    1255 https://bilibili.com
+Got an error for url https://psvhome.ru. Details: Get "https://psvhome.ru": dial tcp 83.220.174.31:443: connectex: No connection could be made because the target machine actively refused it.
+
+Exec time: 2.50
