@@ -10,6 +10,7 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -29,11 +30,12 @@ const (
 )
 
 func main() {
-	// Parse client params to lissajous input
-	gifParams := make(map[string]int)             // Emulate getting data from the client
-	gifParams = prepareLissajousParams(gifParams) // Prepare params maps
 
 	gifHandler := func(w http.ResponseWriter, r *http.Request) {
+		// Parse client params to lissajous input
+		clientParams := r.URL.Query()
+		gifParams := prepareLissajousParams(clientParams)
+
 		lissajous(w, gifParams)
 	}
 	http.HandleFunc("/", gifHandler) // each request calls our handler func defined below
@@ -79,7 +81,7 @@ func pickRandColor(palette []color.Color) uint8 {
 	return uint8(res)
 }
 
-func prepareLissajousParams(input map[string]int) map[string]int {
+func prepareLissajousParams(input map[string][]string) map[string]int {
 
 	// Our final data container with default vals
 	output := map[string]int{
@@ -91,10 +93,15 @@ func prepareLissajousParams(input map[string]int) map[string]int {
 
 	// Process input map by pulling data from existing keys with non-zero vals
 	for k, v := range input {
-		if v == 0 {
+		if len(v) == 0 {
 			continue
 		}
-		output[k] = v
+		// Parse string to int and store within output
+		i, err := strconv.Atoi(v[0])
+		if err != nil {
+			continue // Some logging should happen here, but we ignore it :(
+		}
+		output[k] = i
 	}
 
 	return output
