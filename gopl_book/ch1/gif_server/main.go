@@ -2,6 +2,7 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"image/gif"
@@ -10,7 +11,9 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
+	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -27,9 +30,30 @@ const (
 	mainColIndex = 1
 	extraCol1    = 2
 	extraCol2    = 3
+	port         = "8000"
 )
 
 func main() {
+
+	if len(os.Args) == 1 {
+		fmt.Fprintf(os.Stderr, "Usage: programm.go r | l")
+		os.Exit(1)
+	}
+
+	var addr string
+	env := strings.ToLower(os.Args[1])
+
+	// This can probably be a map instead?
+	if env == "r" {
+		addr = "34.23.191.23"
+	} else if env == "l" {
+		addr = "localhost"
+	} else {
+		fmt.Fprintf(os.Stderr, "Unexpected env: %s\n", env)
+		os.Exit(1)
+	}
+
+	server := addr + ":" + port
 
 	gifHandler := func(w http.ResponseWriter, r *http.Request) {
 		// Parse client params to lissajous input
@@ -39,7 +63,7 @@ func main() {
 		lissajous(w, gifParams)
 	}
 	http.HandleFunc("/", gifHandler) // each request calls our handler func defined below
-	log.Fatal(http.ListenAndServe("localhost:8000", nil))
+	log.Fatal(http.ListenAndServe(server, nil))
 }
 
 func lissajous(out io.Writer, prms map[string]int) {
