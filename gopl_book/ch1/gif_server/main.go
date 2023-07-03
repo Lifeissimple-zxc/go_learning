@@ -30,7 +30,7 @@ const (
 	mainColIndex = 1
 	extraCol1    = 2
 	extraCol2    = 3
-	port         = "8080"
+	port         = "8000"
 )
 
 func main() {
@@ -45,7 +45,7 @@ func main() {
 
 	// This can probably be a map instead?
 	if env == "r" {
-		addr = "34.23.191.23"
+		addr = ""
 	} else if env == "l" {
 		addr = "localhost"
 	} else {
