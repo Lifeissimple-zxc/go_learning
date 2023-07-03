@@ -30,13 +30,13 @@ const (
 	mainColIndex = 1
 	extraCol1    = 2
 	extraCol2    = 3
-	port         = "8000"
+	port         = "8080"
 )
 
 func main() {
 
 	if len(os.Args) == 1 {
-		fmt.Fprintf(os.Stderr, "Usage: programm.go r | l")
+		fmt.Fprintf(os.Stderr, "Usage: programm.go r | l\n")
 		os.Exit(1)
 	}
 
