@@ -19,17 +19,9 @@ func main() {
 		}),
 		fx.Provide(
 			NewHTTPServer,
-			fx.Annotate(NewServeMux, fx.ParamTags(`name:"echo"`, `name:"hello"`)),
-			fx.Annotate(
-				NewEchoHandler,
-				fx.As(new(Route)),
-				fx.ResultTags(`name:"echo"`),
-			),
-			fx.Annotate(
-				NewHelloHandler,
-				fx.As(new(Route)),
-				fx.ResultTags(`name:"hello"`),
-			),
+			fx.Annotate(NewServeMux, fx.ParamTags(`group:"routes"`)),
+			AsRoute(NewEchoHandler),
+			AsRoute(NewHelloHandler),
 			zap.NewExample,
 		),
 		fx.Invoke(func(*http.Server) {}),
@@ -91,10 +83,12 @@ func (h *EchoHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func NewServeMux(route1, route2 Route) *http.ServeMux {
+// Inititally this accepted
+func NewServeMux(routes []Route) *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.Handle(route1.Pattern(), route1)
-	mux.Handle(route2.Pattern(), route2)
+	for _, route := range routes {
+		mux.Handle(route.Pattern(), route)
+	}
 	return mux
 }
 
@@ -125,4 +119,14 @@ func (h *HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.log.Error("Failed to write response", zap.Error(err))
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}
+}
+
+// AsRoute annotates a constructor to state that
+// it provides a route to the "routes" group. // IDK what it means :()
+func AsRoute(f any) any {
+	return fx.Annotate(
+		f,
+		fx.As(new(Route)),
+		fx.ResultTags(`group:"routes"`),
+	)
 }
