@@ -25,13 +25,13 @@ func ParseQ(row []string) (QuizQ, error) {
 
 // Asks the question, validates the answers.
 // If the answer is correct: increments pToPoints by 1
-func (q QuizQ) Ask(pToPoints *int) {
+func (q QuizQ) Ask(pointsPtr *int) {
 	// Variable to collect user input
 	var usrA string
 	fmt.Printf("%s | ", q.q) // Print question to the user
 	fmt.Scanln(&usrA)
 	// Validate input & increment points
 	if q.a == usrA {
-		*pToPoints++
+		*pointsPtr++
 	}
 }

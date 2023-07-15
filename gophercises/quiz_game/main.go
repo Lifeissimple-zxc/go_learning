@@ -7,13 +7,27 @@ import (
 	"io"
 	"math"
 	"os"
+	"os/signal"
+	"time"
+)
+
+const (
+	startPr    = "Press ENTER to start the quiz\n."
+	enterTries = 20
+	timeoutMsg = "\nQuiz time ended :(. Results:"
+	intrptMsg  = "\nQuiz was interrupted. Results:"
 )
 
 func main() {
 	// Parse args: flags package
 	csvPtr := flag.String("csv", "quiz.csv", "Path to CSV of q (question), a (answer) schema.")
-	timer := flag.Int("timer", 10, "Time limit for 1 question (seconds).") // this is for part 2!
+	timer := flag.Int("timer", 30, "Time limit for 1 question (seconds).") // this is for part 2!
 	flag.Parse()
+
+	// Init variables we need to give a summary on the quiz to users
+	var points int // Here we will track # of correct answers!
+	var qsCnt int  // Here we will track # of questions in a quiz
+
 	// Read CSV: CSV package
 	f, err := os.Open(*csvPtr)
 	if err != nil {
@@ -23,23 +37,66 @@ func main() {
 	defer f.Close()
 	// Get total # of questions
 	qs := readQuizFromCsv(f)
-	qsCnt := len(qs) - 1 // We need it later too
-	fmt.Printf("Found %d questions in %s. Starting quiz with %d secods per question!\n", qsCnt, *csvPtr, *timer)
+	qsCnt = len(qs) - 1 // Deduct header row bc it is not a question!
+	fmt.Printf("Found %d questions in %s. Time to complete: %d!\n", qsCnt, *csvPtr, *timer)
 
-	var points int // Here we will track of correct answers!
+	promptStart()
+
+	// Set timer
+	timeout := time.NewTimer(time.Duration(*timer) * time.Second)
+	// Set interrupt signal
+	intrpt := make(chan os.Signal, 1)
+	signal.Notify(intrpt, os.Interrupt)
+
+	// Schedule signals to stop quiz
+	go stopQuiz(&points, &qsCnt, *timeout, intrpt)
+	// Ask questions to the user
+	askQs(qs, &points, &qsCnt)
+
+	fmt.Println(getSummary(points, qsCnt))
+
+}
+
+// Prompts use to press ENTER to start the quiz.
+// Terminates after n wrong inputs (set in const)
+func promptStart() {
+	var startS string // Here we will save user input for starting the quiz
+	for i := 0; i < enterTries; i++ {
+		fmt.Printf(startPr)
+		fmt.Scanln(&startS)
+		if startS == "" {
+			break
+		}
+	}
+}
+
+// Iteratively asks questions using QuizQ struct
+func askQs(qs [][]string, pointsPtr, qsCntPtr *int) {
 	// Iterate over rows, we skip 0 bc it contains header
 	for _, row := range qs[1:] {
-		// TODO make row a separate datastrcutre with some receiver functions later
 		q, err := ParseQ(row)
 		if err != nil {
 			fmt.Printf("Failed to pause question from row: %v", row)
-			qsCnt--
+			*qsCntPtr--
 			continue
 		}
-		q.Ask(&points)
+		q.Ask(pointsPtr)
 	}
+}
 
-	fmt.Println(getSummary(points, qsCnt))
+func stopQuiz(pointsPtr, qsCntPtr *int, t time.Timer, intrpt chan os.Signal) {
+	select {
+	// User ran out of time
+	case <-t.C:
+		fmt.Println(timeoutMsg)
+		fmt.Println(getSummary(*pointsPtr, *qsCntPtr))
+		os.Exit(0)
+	// Manual interrupt signal received
+	case <-intrpt:
+		fmt.Println(intrptMsg)
+		fmt.Println(getSummary(*pointsPtr, *qsCntPtr))
+		os.Exit(0)
+	}
 }
 
 // Reads questions from a csv to a nested slice of strings
