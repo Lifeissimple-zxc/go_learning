@@ -4,8 +4,9 @@ import (
 	"encoding/csv"
 	"flag"
 	"fmt"
+	"io"
+	"math"
 	"os"
-	"strings"
 )
 
 func main() {
@@ -21,41 +22,41 @@ func main() {
 	}
 	defer f.Close()
 	// Get total # of questions
-	csvR := csv.NewReader(f)
-	qs, err := csvR.ReadAll()
-	if err != nil {
-		fmt.Printf("Failed to read data from %s. Details: %v\n", *csvPtr, err)
-		os.Exit(1)
-	}
+	qs := readQuizFromCsv(f)
 	qsCnt := len(qs) - 1 // We need it later too
 	fmt.Printf("Found %d questions in %s. Starting quiz with %d secods per question!\n", qsCnt, *csvPtr, *timer)
-	var points int // Here we will track of correct answers!
-	// Iterate over rows
-	// We skip index 0 bc it contains header
 
+	var points int // Here we will track of correct answers!
+	// Iterate over rows, we skip 0 bc it contains header
 	for _, row := range qs[1:] {
 		// TODO make row a separate datastrcutre with some receiver functions later
-		// Like askQuestion
-		// validateAnswer
-		// Parse questions? Might be actually not irrelevant, just keep everything lowercase
-		q := row[0]
-		a := strings.ToLower(row[1])
-		// Collect user input
-		var usrA string
-		fmt.Printf("%s | ", q)
-		fmt.Scanln(&usrA)
-		// Validate input
-		if a == usrA {
-			points++
+		q, err := ParseQ(row)
+		if err != nil {
+			fmt.Printf("Failed to pause question from row: %v", row)
+			qsCnt--
+			continue
 		}
+		q.Ask(&points)
 	}
 
-	printSummary(points, qsCnt)
-
+	fmt.Println(getSummary(points, qsCnt))
 }
 
-// Prints quiz result to the user
-func printSummary(points, qsCnt int) {
-	sucRate := float64(points) / float64(qsCnt)
-	fmt.Printf("%d out of %d correct! %2.f success rate.", points, qsCnt, sucRate*100)
+// Reads questions from a csv to a nested slice of strings
+func readQuizFromCsv(r io.Reader) [][]string {
+	// Get total # of questions
+	csvR := csv.NewReader(r)
+	qs, err := csvR.ReadAll()
+	if err != nil {
+		fmt.Printf("Failed to read data from %s. Details: %v\n", r, err)
+		os.Exit(1)
+	}
+	return qs
+}
+
+// Prepares quiz summary string to be printed to the user
+func getSummary(points, qsCnt int) string {
+	sucRate := math.Round(float64(points)/float64(qsCnt)*100) / 100
+	sumStr := fmt.Sprintf("%d out of %d correct! %2.f success rate.", points, qsCnt, sucRate*100)
+	return sumStr
 }
