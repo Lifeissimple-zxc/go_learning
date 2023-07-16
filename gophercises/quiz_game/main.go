@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"time"
@@ -19,6 +21,12 @@ const (
 )
 
 func main() {
+
+	// Profiling
+	go func() {
+		http.ListenAndServe("localhost:6060", nil)
+	}()
+
 	// Parse args: flags package
 	csvPtr := flag.String("csv", "quiz.csv", "Path to CSV of q (question), a (answer) schema.")
 	timer := flag.Int("timer", 30, "Time limit for 1 question (seconds).") // this is for part 2!
