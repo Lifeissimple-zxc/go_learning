@@ -18,7 +18,7 @@ func ParseQ(row []string) (QuizQ, error) {
 	}
 	newQ := QuizQ{
 		q: row[0],
-		a: strings.ToLower(row[1]),
+		a: strings.TrimSpace(strings.ToLower(row[1])),
 	}
 	return newQ, nil
 }
@@ -29,7 +29,8 @@ func (q QuizQ) Ask(pointsPtr *int) {
 	// Variable to collect user input
 	var usrA string
 	fmt.Printf("%s | ", q.q) // Print question to the user
-	fmt.Scanln(&usrA)
+	fmt.Scanf("%s\n", &usrA)
+	usrA = strings.TrimSpace(usrA)
 	// Validate input & increment points
 	if q.a == usrA {
 		*pointsPtr++
