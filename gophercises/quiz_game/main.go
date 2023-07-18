@@ -104,7 +104,12 @@ func askQs(qs [][]string, pointsPtr, qsCntPtr *int) {
 			*qsCntPtr--
 			continue
 		}
-		q.Ask(pointsPtr)
+		fmt.Printf("%s", q.PrintStr()) // Prints question to the user
+		// Read answer from STDIN
+		var usrA string
+		fmt.Scanf("%s\n", &usrA)
+		// Check if correct
+		q.CheckAnswer(pointsPtr, usrA)
 	}
 }
 

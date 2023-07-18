@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -14,7 +15,9 @@ type QuizQ struct {
 func ParseQ(row []string) (QuizQ, error) {
 	// Naive check for input's format
 	if len(row) != 2 {
-		return QuizQ{}, nil
+		return QuizQ{}, errors.New(
+			fmt.Sprintf("Wrong len of input: %d. Needs to be 2!", len(row)),
+		)
 	}
 	newQ := QuizQ{
 		q: row[0],
@@ -23,15 +26,15 @@ func ParseQ(row []string) (QuizQ, error) {
 	return newQ, nil
 }
 
-// Asks the question, validates the answers.
-// If the answer is correct: increments pToPoints by 1
-func (q QuizQ) Ask(pointsPtr *int) {
-	// Variable to collect user input
-	var usrA string
-	fmt.Printf("%s | ", q.q) // Print question to the user
-	fmt.Scanf("%s\n", &usrA)
-	usrA = strings.TrimSpace(usrA)
-	// Validate input & increment points
+// Converts question to a formatted string that can be printed to a user
+func (q QuizQ) PrintStr() string {
+	return fmt.Sprintf("%s | ", q.q)
+}
+
+// Removes leading and trailing spaces from usrA, converts it to lowercase.
+// Then compares with q.a and increments value of pointsPtr by 1 if the two match.
+func (q QuizQ) CheckAnswer(pointsPtr *int, usrA string) {
+	usrA = strings.ToLower(strings.TrimSpace(usrA))
 	if q.a == usrA {
 		*pointsPtr++
 	}
