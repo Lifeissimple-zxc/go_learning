@@ -1,3 +1,4 @@
 go 1.20
 
 use ./gophercises/url_shortener
+use ./tour_of_go
