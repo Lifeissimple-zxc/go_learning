@@ -1,0 +1,2 @@
+- path: somepath
+  url: http://some_url_we_dont_care_coz_test
