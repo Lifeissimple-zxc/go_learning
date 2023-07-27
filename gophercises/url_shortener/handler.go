@@ -1,7 +1,6 @@
 package urlshort
 
 import (
-	"fmt"
 	"net/http"
 
 	"gopkg.in/yaml.v2"
@@ -14,7 +13,6 @@ import (
 // If the path is not provided in the map, then the fallback
 // http.Handler will be called instead.
 func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.HandlerFunc {
-	fmt.Println("pathsToUrls:", pathsToUrls)
 	// Func that matches http.HandlerFunc signature: https://pkg.go.dev/net/http#HandleFunc
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Logic: if we match a path --> redirect,
@@ -48,21 +46,39 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 // a mapping of paths to urls.
 func YAMLHandler(yml []byte, fallback http.Handler) (http.HandlerFunc, error) {
 	// Parse the yaml
-	var pathUrls []pathUrl
-	err := yaml.Unmarshal(yml, &pathUrls)
+	pathUrls, err := parseYaml(yml)
 	if err != nil {
 		return nil, err
 	}
 	// Convert yaml array to a map
 	// Create a map-container of our data
+	pathsToUrls := createUrlPathsMap(pathUrls)
+
+	// return a map hander using the map
+	return MapHandler(pathsToUrls, fallback), nil
+}
+
+// Encapsulating some code from YAMLHandler for better testing
+
+// Parses yaml into a slice of pathUrl structs
+func parseYaml(yml []byte) ([]pathUrl, error) {
+	var pathUrls []pathUrl
+	err := yaml.Unmarshal(yml, &pathUrls)
+	if err != nil {
+		return nil, err
+	}
+	return pathUrls, nil
+}
+
+// Converts slice of pathUrl to a map for quick lookups by the handler
+func createUrlPathsMap(paths []pathUrl) map[string]string {
+	// Container for our data
 	pathsToUrls := make(map[string]string)
-	for _, pu := range pathUrls {
-		// Write data from our array of structs to the map
+	// Iteratively write to container
+	for _, pu := range paths {
 		pathsToUrls[pu.Path] = pu.URL
 	}
-	// return a map hander using the map
-
-	return MapHandler(pathsToUrls, fallback), nil
+	return pathsToUrls
 }
 
 // Custom type for parsing yaml, uses tags
