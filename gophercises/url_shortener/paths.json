@@ -1,0 +1,10 @@
+[
+    {
+        "path": "/goog",
+        "url": "https://google.com/search?q=hello+world"
+    },
+    {
+        "path": "/anime",
+        "url": "https://myanimelist.net/"
+    }
+]

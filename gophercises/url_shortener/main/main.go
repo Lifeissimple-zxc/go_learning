@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 
 	urlshort "url_shortener"
 )
@@ -13,11 +14,11 @@ import (
 func main() {
 
 	// CLI args parsing
-	ymlPtr := flag.String("yaml", "paths.yaml", "Path to a yaml of [{path: url: }, {..}] form")
+	fPtr := flag.String("file", "paths.yaml", "Path to a yaml of [{path: url: }, {..}] form")
 	flag.Parse()
 
-	// We read yaml before anything
-	yaml, err := readYAML(*ymlPtr)
+	// We read mapping file before anything
+	file, err := readYAML(*fPtr)
 	if err != nil {
 		fmt.Printf("Error when opening file: %v\n", err)
 		os.Exit(1)
@@ -32,14 +33,21 @@ func main() {
 	}
 	mapHandler := urlshort.MapHandler(pathsToUrls, mux)
 
-	// Build the YAMLHandler using the mapHandler as the
-	// fallback
-	yamlHandler, err := urlshort.YAMLHandler([]byte(yaml), mapHandler)
-	if err != nil {
-		panic(err)
+	// Dynamically decide on handler depending on the type of file we get
+	var myHandler http.HandlerFunc
+	// Declaring e here to avoid writing if e != nil two times
+	var e error
+	if strings.Contains(*fPtr, "json") {
+		myHandler, e = urlshort.JSONHandler([]byte(file), mapHandler)
+	} else {
+		myHandler, e = urlshort.YAMLHandler([]byte(file), mapHandler)
 	}
+	if e != nil {
+		panic(e)
+	}
+
 	fmt.Println("Starting the server on :8080")
-	http.ListenAndServe(":8080", yamlHandler)
+	http.ListenAndServe(":8080", myHandler)
 }
 
 func defaultMux() *http.ServeMux {

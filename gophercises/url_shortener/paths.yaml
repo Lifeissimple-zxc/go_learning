@@ -1,2 +1,4 @@
-- path: somepath
-  url: http://some_url_we_dont_care_coz_test
+- path: /urlshort
+  url: https://github.com/gophercises/urlshort
+- path: /urlshort-final
+  url: https://github.com/gophercises/urlshort/tree/solution
