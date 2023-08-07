@@ -4,3 +4,5 @@
 
 # Ignore one-off scripts
 random_stuff/
+
+.vscode/
