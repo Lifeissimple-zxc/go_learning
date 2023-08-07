@@ -18,10 +18,7 @@ func Crawl(
 	depth int,
 	fetcher Fetcher,
 	cache *SafeMap,
-	ch chan string,
-	wg *sync.WaitGroup) {
-
-	defer wg.Done()
+	ch chan string) {
 
 	// base case when we run out of depth
 	if depth <= 0 {
@@ -48,8 +45,7 @@ func Crawl(
 			continue
 		}
 		cache.Cache(u) // Caching visited url
-
-		go Crawl(u, depth-1, fetcher, cache, ch, wg)
+		go Crawl(u, depth-1, fetcher, cache, ch)
 
 	}
 
@@ -57,19 +53,12 @@ func Crawl(
 }
 
 func main() {
-	d := 4
-	// Creating a waitgroup to get data from all goros
-	var wg sync.WaitGroup
-	wg.Add(d + 1)
 	cache := SafeMap{val: make(map[string]bool)}
 	ch := make(chan string)
-	go func() {
-		defer close(ch)
-		Crawl("https://golang.org/", d, fetcher, &cache, ch, &wg)
-	}()
 
 	go func() {
-		wg.Wait()
+		defer close(ch)
+		Crawl("https://golang.org/", 4, fetcher, &cache, ch)
 	}()
 
 	// Get our results from the queue
