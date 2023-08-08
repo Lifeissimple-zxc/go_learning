@@ -16,7 +16,8 @@ func Crawl(
 	url string,
 	depth int,
 	fetcher Fetcher,
-	ch chan string) {
+	ch chan string,
+	cache map[string]bool) {
 
 	defer close(ch)
 	fmt.Println("starting a new thread!")
@@ -26,16 +27,17 @@ func Crawl(
 		return
 	}
 
-	// // avoiding repetitive urls
-	// if flag := cache.GetValue(url); flag {
-	// 	return
-	// }
+	// avoiding repetitive urls
+	if cache[url] {
+		return
+	}
 
 	body, urls, err := fetcher.Fetch(url)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	cache[url] = true
 
 	// cache.Cache(url) // Caching visited url
 
@@ -43,13 +45,14 @@ func Crawl(
 	// fmt.Println("Got past channel communication")
 	auxChs := make([]chan string, len(urls))
 	for i, u := range urls {
-		auxChs[i] = make(chan string)
+		// Think if we need this here!
 		// // avoiding repetitive urls
-		// if flag := cache.GetValue(u); flag {
+		// if cache[url] {
 		// 	continue
 		// }
-		// cache.Cache(u) // Caching visited url
-		go Crawl(u, depth-1, fetcher, auxChs[i])
+		// cache[url] = true
+		auxChs[i] = make(chan string)
+		go Crawl(u, depth-1, fetcher, auxChs[i], cache)
 	}
 
 	for i := range auxChs {
@@ -63,9 +66,10 @@ func Crawl(
 
 func main() {
 	// cache := SafeMap{val: make(map[string]bool)}
+	cache := make(map[string]bool)
 	ch := make(chan string)
 
-	go Crawl("https://golang.org/", 4, fetcher, ch)
+	go Crawl("https://golang.org/", 4, fetcher, ch, cache)
 
 	// Get our results from the queue
 	for elem := range ch {
