@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sync"
 )
 
 type Fetcher interface {
@@ -17,18 +16,20 @@ func Crawl(
 	url string,
 	depth int,
 	fetcher Fetcher,
-	cache *SafeMap,
 	ch chan string) {
+
+	defer close(ch)
+	fmt.Println("starting a new thread!")
 
 	// base case when we run out of depth
 	if depth <= 0 {
 		return
 	}
 
-	// avoiding repetitive urls
-	if flag := cache.GetValue(url); flag {
-		return
-	}
+	// // avoiding repetitive urls
+	// if flag := cache.GetValue(url); flag {
+	// 	return
+	// }
 
 	body, urls, err := fetcher.Fetch(url)
 	if err != nil {
@@ -36,30 +37,35 @@ func Crawl(
 		return
 	}
 
-	cache.Cache(url) // Caching visited url
+	// cache.Cache(url) // Caching visited url
 
-	ch <- fmt.Sprintf("Found %s %q\n", url, body)
-	for _, u := range urls {
-		// avoiding repetitive urls
-		if flag := cache.GetValue(u); flag {
-			continue
+	fmt.Printf("Found %s %q\n", url, body)
+	// fmt.Println("Got past channel communication")
+	auxChs := make([]chan string, len(urls))
+	for i, u := range urls {
+		auxChs[i] = make(chan string)
+		// // avoiding repetitive urls
+		// if flag := cache.GetValue(u); flag {
+		// 	continue
+		// }
+		// cache.Cache(u) // Caching visited url
+		go Crawl(u, depth-1, fetcher, auxChs[i])
+	}
+
+	for i := range auxChs {
+		for res := range auxChs[i] {
+			ch <- res
 		}
-		cache.Cache(u) // Caching visited url
-		go Crawl(u, depth-1, fetcher, cache, ch)
-
 	}
 
 	return
 }
 
 func main() {
-	cache := SafeMap{val: make(map[string]bool)}
+	// cache := SafeMap{val: make(map[string]bool)}
 	ch := make(chan string)
 
-	go func() {
-		defer close(ch)
-		Crawl("https://golang.org/", 4, fetcher, &cache, ch)
-	}()
+	go Crawl("https://golang.org/", 4, fetcher, ch)
 
 	// Get our results from the queue
 	for elem := range ch {
@@ -67,24 +73,24 @@ func main() {
 	}
 }
 
-// SafeMap is safe to use concurrently
-// Based on https://go.dev/tour/concurrency/9
-type SafeMap struct {
-	mu  sync.Mutex
-	val map[string]bool
-}
+// // SafeMap is safe to use concurrently
+// // Based on https://go.dev/tour/concurrency/9
+// type SafeMap struct {
+// 	mu  sync.Mutex
+// 	val map[string]bool
+// }
 
-func (sm *SafeMap) Cache(key string) {
-	sm.mu.Lock()
-	sm.val[key] = true
-	sm.mu.Unlock()
-}
+// func (sm *SafeMap) Cache(key string) {
+// 	sm.mu.Lock()
+// 	sm.val[key] = true
+// 	sm.mu.Unlock()
+// }
 
-func (sm *SafeMap) GetValue(key string) bool {
-	sm.mu.Lock()
-	defer sm.mu.Unlock()
-	return sm.val[key]
-}
+// func (sm *SafeMap) GetValue(key string) bool {
+// 	sm.mu.Lock()
+// 	defer sm.mu.Unlock()
+// 	return sm.val[key]
+// }
 
 // fakeFetcher is Fetcher that returns canned results.
 type fakeFetcher map[string]*fakeResult
