@@ -3,6 +3,8 @@ package story
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
+	"io"
 )
 
 const STORY_PATH = "gopher.json"
@@ -24,6 +26,20 @@ func (sa *StoryArc) Init(data *json.RawMessage) error {
 		return err
 	}
 	return nil
+}
+
+// RenderHTML uses StoryArc data to generate
+// an HTML page using HTMLBytes
+func (sa StoryArc) RenderHTML(HTML []byte, name string, wr io.Writer) error {
+	html, err := template.New(name).Parse(string(HTML))
+	if err != nil {
+		return err
+	}
+	if err = html.Execute(wr, sa); err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
 
 type Story struct {

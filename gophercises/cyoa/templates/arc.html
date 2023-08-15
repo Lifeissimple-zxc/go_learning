@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" contet="initial-scale=1, width=device-width">
+        <title>{{.Title}}</title>
+    </head>
+    <body>
+        <h1>{{.Title}}</h1>
+        <!-- Stories go here Iteratively -->
+        <div>
+            {{range .Story}}
+            <p>{{ . }}</p>
+            {{end}}
+        </div>
+        <!-- Options go here Iteratively -->
+        <div>
+            {{range .Options}}
+            <p>
+                <a href="localhost://5050/{{.Arc}}">
+                    {{.Text}}
+                </a>
+            </p>
+            {{end}}
+        </div>
+    </body>
+</html>

@@ -30,7 +30,21 @@ func main() {
 	story.Init(storyData)
 
 	fmt.Println("Story has been parsed")
-	fmt.Printf("Story data: %#v", story.Arcs["intro"])
+	fmt.Println("###################")
+	// fmt.Printf("Story data: %#v", story.Arcs["intro"])
+
+	// Generate HTML
+	htmlBytes, err := readFile("templates/arc.html")
+	if err != nil {
+		fmt.Printf("Err opening html file. Details: %v\n", err)
+		os.Exit(1)
+	}
+
+	err = story.Arcs["intro"].RenderHTML(htmlBytes, "intro", os.Stdout)
+	if err != nil {
+		fmt.Printf("Err rendering html file. Details: %v\n", err)
+		os.Exit(1)
+	}
 
 }
 
