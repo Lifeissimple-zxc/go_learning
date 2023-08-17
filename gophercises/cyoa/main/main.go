@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
+	"net/http"
 	"os"
 )
 
@@ -32,20 +34,25 @@ func main() {
 		os.Exit(1)
 	}
 	// parse to Story struct
-	var story story.Story
-	story.Init(storyData, htmlBytes)
+	var st story.Story
+	st.Init(storyData, htmlBytes)
 
 	fmt.Println("Story has been parsed")
 	fmt.Println("###################")
-	// fmt.Printf("Story data: %#v", story.Arcs["intro"])
 
-	arc := story.Arcs["intro"]
+	router := story.StoryRouter{St: st}
 
-	err = arc.RenderHTML(os.Stdout)
-	if err != nil {
-		fmt.Printf("Err rendering html file. Details: %v\n", err)
-		os.Exit(1)
-	}
+	fmt.Println("Router instantiated")
+
+	log.Fatal(http.ListenAndServe(":3000", router))
+
+	// // STDOUT HTML variation
+	// arc := story.Arcs["intro"]
+	// err = arc.RenderHTML(os.Stdout)
+	// if err != nil {
+	// 	fmt.Printf("Err rendering html file. Details: %v\n", err)
+	// 	os.Exit(1)
+	// }
 
 }
 

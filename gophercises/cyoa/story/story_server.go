@@ -1,6 +1,7 @@
 package story
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 )
@@ -15,9 +16,17 @@ func (sr StoryRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	cleanPath := strings.ToLower(r.URL.Path)
 	// Defaulting index path to intro
 	if cleanPath == "/" {
-		cleanPath = "intro"
+		cleanPath = "/intro"
 	}
-	if arc, ok := sr.St.Arcs[cleanPath]; !ok {
+	fmt.Println("Got an inbond for", cleanPath)
+	fmt.Println("Paths supported", cleanPath)
+	for key := range sr.St.Arcs {
+		fmt.Println(key)
+	}
+
+	arc, ok := sr.St.Arcs[cleanPath[1:]]
+	fmt.Printf("%s lookup result: %v, %#v", cleanPath, ok, arc)
+	if !ok {
 		// Quick fail for unexpected arcs
 		http.Error(w, "Page not found", http.StatusNotFound)
 	} else {
