@@ -25,22 +25,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	// parse to Story struct
-	var story story.Story
-	story.Init(storyData)
-
-	fmt.Println("Story has been parsed")
-	fmt.Println("###################")
-	// fmt.Printf("Story data: %#v", story.Arcs["intro"])
-
 	// Generate HTML
 	htmlBytes, err := readFile("templates/arc.html")
 	if err != nil {
 		fmt.Printf("Err opening html file. Details: %v\n", err)
 		os.Exit(1)
 	}
+	// parse to Story struct
+	var story story.Story
+	story.Init(storyData, htmlBytes)
 
-	err = story.Arcs["intro"].RenderHTML(htmlBytes, "intro", os.Stdout)
+	fmt.Println("Story has been parsed")
+	fmt.Println("###################")
+	// fmt.Printf("Story data: %#v", story.Arcs["intro"])
+
+	arc := story.Arcs["intro"]
+
+	err = arc.RenderHTML(os.Stdout)
 	if err != nil {
 		fmt.Printf("Err rendering html file. Details: %v\n", err)
 		os.Exit(1)
