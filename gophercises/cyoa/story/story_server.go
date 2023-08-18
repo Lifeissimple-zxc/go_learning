@@ -13,6 +13,7 @@ type StoryRouter struct {
 func (sr StoryRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// sr is not actually needed?
 	// Here we handle different paths of incoming requests
+	// path handling can be a separate function! TODO
 	cleanPath := strings.ToLower(r.URL.Path)
 	// Defaulting index path to intro
 	if cleanPath == "/" {

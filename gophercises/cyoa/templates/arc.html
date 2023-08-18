@@ -3,9 +3,13 @@
 <html lang="en">
     <head>
         <meta name="viewport" contet="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="../static/styles.css">
         <title>{{.Title}}</title>
     </head>
     <body>
+        <ul class="horizontal-list">
+            <li>CYOA: Create Your Own Adventure</li>
+        </ul>
         <h1>{{.Title}}</h1>
         <!-- Stories go here Iteratively -->
         <div>
@@ -14,6 +18,7 @@
             {{end}}
         </div>
         <!-- Options go here Iteratively -->
+        <h3>What's next?</h3>
         <div>
             {{range .Options}}
             <p>
