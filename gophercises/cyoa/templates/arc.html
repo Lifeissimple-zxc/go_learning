@@ -7,26 +7,49 @@
         <title>{{.Title}}</title>
     </head>
     <body>
-        <ul class="horizontal-list">
-            <li>CYOA: Create Your Own Adventure</li>
-        </ul>
-        <h1>{{.Title}}</h1>
+        <div class="nav-panel rounded-el">
+            <ul class="horizontal-list">
+                <li><b>CYOA: Create Your Own Adventure</b></li>
+                <li class="right-item center-txt  rounded-el">
+                    <button onclick="window.location.href='/'"
+                    class="btn-neutral">
+                        Main Page
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+        <h1 class="all-mrg-10">{{.Title}}</h1>
         <!-- Stories go here Iteratively -->
-        <div>
-            {{range .Story}}
-            <p>{{ . }}</p>
-            {{end}}
+        <div class="story-section">
+            <div class="all-mrg-10">
+                {{range .Story}}
+                <p>{{ . }}</p>
+                {{end}}
+            </div>
+            
         </div>
         <!-- Options go here Iteratively -->
-        <h3>What's next?</h3>
-        <div>
-            {{range .Options}}
-            <p>
-                <a href="/{{.Arc}}">
-                    {{.Text}}
-                </a>
-            </p>
-            {{end}}
+        <h3 class="all-mrg-10">What's next?</h3>
+        <div class="story-section">
+            <div class="all-mrg-10">
+                {{range .Options}}
+                <ul class="horizontal-list">
+                    <li>
+                        <button onclick="window.location.href='/{{.Arc}}'"
+                        class="btn-go">
+                            Let's Go!
+                        </button>
+                    </li>
+                    <li class="right-item option-item-text" 
+                    style="width: 90%;">
+                        <!-- {{.Text}} -->
+                        That story about the Sticky Bandits isn't real, it is from Home Alone 2! Let's head to New York.
+                    </li>
+                </ul>
+                {{end}}
+            </div>
+            
         </div>
     </body>
 </html>

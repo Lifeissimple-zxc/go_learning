@@ -20,10 +20,6 @@ func (sr StoryRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		cleanPath = "/intro"
 	}
 	fmt.Println("Got an inbond for", cleanPath)
-	fmt.Println("Paths supported", cleanPath)
-	for key := range sr.St.Arcs {
-		fmt.Println(key)
-	}
 
 	arc, ok := sr.St.Arcs[cleanPath[1:]]
 	fmt.Printf("%s lookup result: %v, %#v", cleanPath, ok, arc)
