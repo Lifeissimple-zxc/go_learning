@@ -29,6 +29,7 @@
             </div>
             
         </div>
+        {{if gt (len .Options) 0}}
         <!-- Options go here Iteratively -->
         <h3 class="all-mrg-10">What's next?</h3>
         <div class="story-section">
@@ -48,7 +49,7 @@
                 </ul>
                 {{end}}
             </div>
-            
         </div>
+        {{end}}
     </body>
 </html>
