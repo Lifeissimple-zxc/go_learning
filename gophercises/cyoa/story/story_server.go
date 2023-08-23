@@ -23,9 +23,11 @@ func (sr StoryRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	arc, ok := sr.St.Arcs[cleanPath[1:]]
 	fmt.Printf("%s lookup result: %v, %#v", cleanPath, ok, arc)
+	// 404 here causes css file to be MIME, fix this
 	if !ok {
 		// Quick fail for unexpected arcs
-		http.Error(w, "Page not found", http.StatusNotFound)
+		fmt.Println("Some lines")
+		//http.Error(w, "Page not found", http.StatusNotFound)
 	} else {
 		// Render using template saved within story
 		// This should use template saved within self!

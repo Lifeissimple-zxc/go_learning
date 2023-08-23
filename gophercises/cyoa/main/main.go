@@ -46,11 +46,9 @@ func main() {
 
 	// The below line is needed bc CSS and other static content
 	// is server separately from HTML
-	http.Handle("/static/",
-		http.StripPrefix("/static/",
-			http.FileServer(http.Dir("static"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
-	log.Fatal(http.ListenAndServe(":3000", router))
+	log.Fatal(http.ListenAndServe(":5070", router))
 
 }
 
