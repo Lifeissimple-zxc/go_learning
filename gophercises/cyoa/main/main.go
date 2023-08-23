@@ -44,15 +44,13 @@ func main() {
 
 	fmt.Println("Router instantiated")
 
-	log.Fatal(http.ListenAndServe(":3000", router))
+	// The below line is needed bc CSS and other static content
+	// is server separately from HTML
+	http.Handle("/static/",
+		http.StripPrefix("/static/",
+			http.FileServer(http.Dir("static"))))
 
-	// // STDOUT HTML variation
-	// arc := story.Arcs["intro"]
-	// err = arc.RenderHTML(os.Stdout)
-	// if err != nil {
-	// 	fmt.Printf("Err rendering html file. Details: %v\n", err)
-	// 	os.Exit(1)
-	// }
+	log.Fatal(http.ListenAndServe(":3000", router))
 
 }
 
