@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
-        <link rel="stylesheet" href="/gophercises/cyoa/static/styles.css">
+        <link rel="stylesheet" href="/static/styles.css">
         <title>{{.Title}}</title>
     </head>
     <body>
@@ -27,8 +27,7 @@
                 {{range .Story}}
                 <p>{{ . }}</p>
                 {{end}}
-            </div>
-            
+            </div>          
         </div>
         {{if gt (len .Options) 0}}
         <!-- Options go here Iteratively -->
