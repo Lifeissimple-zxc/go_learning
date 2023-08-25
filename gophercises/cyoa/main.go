@@ -4,8 +4,8 @@ import (
 	"cyoa/story"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"io"
-	"log"
 	"net/http"
 	"os"
 )
@@ -37,22 +37,15 @@ func main() {
 	var st story.Story
 	st.Init(storyData, htmlBytes)
 
-	fmt.Println("Story has been parsed")
-	fmt.Println("###################")
-
-	router := story.StoryRouter{St: st}
-
-	fmt.Println("Router instantiated")
-
-	// The below line is needed bc CSS and other static content
-	// is server separately from HTML
-	// http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	mux := http.NewServeMux()
+	tmpl := template.Must(template.ParseFiles("templates/arc.html"))
 	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	log.Fatal(http.ListenAndServe(":5070", router))
+	mux.Handle("/static/", http.StripPrefix("/static", fs))
+	mux.HandleFunc("/todo", todo)
 
 }
+
+func showStory(name string, st *story.Story, tmpl *template.Template)
 
 // readFile reads a file to a bytes slice
 func readFile(path string) ([]byte, error) {
