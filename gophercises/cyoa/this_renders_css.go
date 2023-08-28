@@ -1,3 +1,4 @@
+// This indeed renders, but some renames are needed
 package main
 
 import (
@@ -13,28 +14,28 @@ import (
 
 var tmpl *template.Template
 
-func main() {
+func SomeFunc() {
 
 	mux := http.NewServeMux()
 	tmpl = template.Must(template.ParseFiles("templates/arc.html"))
 
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fs))
-	mux.HandleFunc("/intro", showStory)
+	mux.HandleFunc("/intro", oldShowStory)
 
 	log.Fatal(http.ListenAndServe(":9091", mux))
 
 }
 
-func showStory(w http.ResponseWriter, r *http.Request) {
+func oldShowStory(w http.ResponseWriter, r *http.Request) {
 	// Generate HTML
-	htmlBytes, err := readFile("templates/arc.html")
+	htmlBytes, err := old_readFile("templates/arc.html")
 	if err != nil {
 		fmt.Printf("Err opening html file. Details: %v\n", err)
 		os.Exit(1)
 	}
 
-	file, err := readFile(story.STORY_PATH)
+	file, err := old_readFile(story.STORY_PATH)
 	if err != nil {
 		fmt.Printf("Err opening file %s. Details: %v\n", story.STORY_PATH, err)
 		os.Exit(1)
@@ -56,7 +57,7 @@ func showStory(w http.ResponseWriter, r *http.Request) {
 }
 
 // readFile reads a file to a bytes slice
-func readFile(path string) ([]byte, error) {
+func old_readFile(path string) ([]byte, error) {
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, err
