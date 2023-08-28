@@ -1,6 +1,7 @@
 {
     "intro": {
       "title": "The Little Blue Gopher",
+      "is_start": true,
       "story": [
         "Once upon a time, long long ago, there was a little blue gopher. Our little blue friend wanted to go on an adventure, but he wasn't sure where to go. Will you go on an adventure with him?",
         "One of his friends once recommended going to New York to make friends at this mysterious thing called \"GothamGo\". It is supposed to be a big event with free swag and if there is one thing gophers love it is free trinkets. Unfortunately, the gopher once heard a campfire story about some bad fellas named the Sticky Bandits who also live in New York. In the stories these guys would rob toy stores and terrorize young boys, and it sounded pretty scary.",
@@ -19,6 +20,7 @@
     },
     "new-york": {
       "title": "Visiting New York",
+      "is_start": false,
       "story": [
         "Upon arriving in New York you and your furry travel buddy first attempt to hail a cab. Unfortunately nobody wants to give a ride to someone with a \"pet\". They kept saying something about shedding, as if gophers shed.",
         "Unwilling to accept defeat, you pull out your phone and request a ride using <undisclosed-app>. In a few short minutes a car pulls up and the driver helps you load your luggage. He doesn't seem thrilled about your travel companion but he doesn't say anything.",
@@ -39,6 +41,7 @@
     },
     "debate": {
       "title": "The Great Debate",
+      "is_start": false,
       "story": [
         "After a bit everyone settles down the two people on stage begin having a debate. You don't recall too many specifics, but for some reason you have a feeling you are supposed to pick sides."
       ],
@@ -59,6 +62,7 @@
     },
     "sean-kelly": {
       "title": "Exit Stage Left",
+      "is_start": false,
       "story": [
         "As you begin walking up to the fox-man you hear him introduce himself as Sean Kelly. While waiting in line you decide to do a little research to see what types of work Sean is into.",
         "A few clicks later and you drop your phone in horror. This guy's online handle is \"StabbyCutyou\". The stories about New York being dangerous were true!",
@@ -74,6 +78,7 @@
     },
     "mark-bates": {
       "title": "Costume Time",
+      "is_start": false,
       "story": [
         "After talking with the wannabe superhero for a while you come to learn that his name is Mark Bates, and aside from his costume obsession he seems like a nice enough guy.",
         "It turns our Mark has been working on this project called Buffalo and he is desperately looking for a mascot. He even purchased a little buffalo outfit, but it is too small for him.",
@@ -89,6 +94,7 @@
     },
     "denver": {
       "title": "Hockey and Ski Slopes",
+      "is_start": false,
       "story": [
         "You arrive in Denver and start your trip by attending a hockey game. The Avalanche had a rough season last year, but your gopher buddy is hopeful that they will do better this year. He also explains that he is tired of hearing about \"Two time Stanley Cup champion Phil Kessel.\" You suspect that he is still a little salty about the Penguins beating the San Jose Sharks in the Stanley Cup, but you decide to give him a break.",
         "The next day you head to the slopes and blaze a few trails. You can definitely see why Denver is called the \"Mile-High City\". Gorgeous mountain scenery doesn't come close to describing it.",
@@ -104,6 +110,7 @@
     },
     "home": {
       "title": "Home Sweet Home",
+      "is_start": false,
       "story": [
         "Your little gopher buddy thanks you for taking him on an adventure. Perhaps next year you can look into travelling abroad - you have both heard that gophers are all the rage in China."
       ],

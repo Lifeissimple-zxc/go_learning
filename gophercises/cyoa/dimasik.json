@@ -1,0 +1,127 @@
+{
+    "start": {
+      "title": "The Adventure of Dima Struchin",
+      "is_start": true,
+      "story": [
+        "Once upon a time, in a faraway land, lived a brave adventurer named Dima Struchin. Dima was known far and wide for his insatiable curiosity and his daring spirit.",
+        "One day, while exploring the depths of a mystical forest, Dima stumbled upon a weathered map. The map seemed to lead to a hidden treasure that promised unimaginable riches and ancient artifacts.",
+        "However, the map was cryptic, and Dima couldn't decipher it alone. He knew he needed assistance to unravel the secrets it held. Will you join Dima in this thrilling quest?",
+        "As a true adventurer, Dima had two options in mind for his journey. The first was to seek the guidance of a wise sage who lived atop the Misty Mountains. The sage was rumored to possess profound knowledge of ancient maps and hidden treasures.",
+        "The second option was to visit the bustling city of Eldoria, where a renowned treasure hunter's guild resided. They were known for their expertise in deciphering maps and navigating treacherous terrains.",
+        "Now, dear friend, the choice is yours. Will you help Dima seek the sage's wisdom or join him in the treasure hunter's guild in Eldoria?"
+      ],
+      "options": [
+        {
+          "text": "I believe the sage's wisdom will guide us best. Let's head to the Misty Mountains.",
+          "arc": "misty-mountains"
+        },
+        {
+          "text": "The treasure hunter's guild sounds exciting. Let's make our way to Eldoria.",
+          "arc": "eldoria"
+        }
+      ]
+    },
+    "misty-mountains": {
+      "title": "The Sage's Wisdom",
+      "is_start": false,
+      "story": [
+        "With a determined heart, Dima embarked on a challenging journey to the Misty Mountains. The path was steep and winding, but his determination never wavered.",
+        "After days of rigorous travel, Dima finally reached the sage's hidden abode. The sage welcomed him with a warm smile and listened intently to his tale of the mysterious map.",
+        "The sage studied the map closely, tracing its ancient symbols with a finger as old as time itself. After a moment of deep contemplation, the sage shared his insights.",
+        "\"Dima, my dear adventurer,\" the sage began, \"This map leads to a place of great power, guarded by mythical creatures and hidden traps. To unlock its secrets, you must first prove your courage and wisdom in three trials.\"",
+        "Dima listened carefully as the sage explained the trials. Each one tested a different aspect of his character—courage, wisdom, and kindness. If he succeeded, the treasure's location would be revealed.",
+        "Now, Dima stands at the threshold of the first trial, ready to prove himself. Will you guide him through these challenges and uncover the treasure's secrets?"
+      ],
+      "options": [
+        {
+          "text": "Dima is brave and strong. Let's face the first trial together.",
+          "arc": "trial-1"
+        },
+        {
+          "text": "The trials sound perilous. Let's reconsider and explore other paths.",
+          "arc": "reconsider"
+        }
+      ]
+    },
+    "eldoria": {
+      "title": "The Guild of Treasure Hunters",
+      "is_start": false,
+      "story": [
+        "Dima's journey led him to the grand city of Eldoria, where towering buildings and bustling markets surrounded him. The treasure hunter's guild stood as a beacon of adventure in the heart of the city.",
+        "Dima entered the guild's headquarters, where seasoned treasure hunters and enthusiastic apprentices shared tales of their daring escapades. The guildmaster, a charismatic figure named Captain Elara, welcomed Dima with a hearty laugh.",
+        "\"Ah, another brave soul seeks the thrill of the hunt!\" Captain Elara exclaimed. Dima shared his story and unveiled the enigmatic map, and the guild members gathered around in awe.",
+        "The guild members pored over the map, discussing its symbols and potential meanings. Together, they deciphered clues that hinted at a path filled with challenges and rewards.",
+        "Captain Elara turned to Dima with a twinkle in her eye. \"To embark on this journey, you must prove your resourcefulness and teamwork in a series of guild challenges. These challenges will test your skills and camaraderie.\"",
+        "Dima's heart raced as he considered the challenges that awaited him. With Captain Elara's guidance, he prepared to face the guild's trials and unveil the treasure's location.",
+        "As you stand by Dima's side, the guild's adventures beckon. Will you join him in these challenges and experience the excitement of treasure hunting?"
+      ],
+      "options": [
+        {
+          "text": "Dima is a skilled adventurer. Let's embrace the guild's challenges together.",
+          "arc": "guild-trials"
+        },
+        {
+          "text": "The guild's trials seem intense. Let's explore other options.",
+          "arc": "reconsider"
+        }
+      ]
+    },
+    "trial-1": {
+      "title": "Trial of Courage",
+      "is_start": false,
+      "story": [
+        "Dima faced the first trial of courage with unwavering determination. He stood before a towering cliff, overlooking a churning abyss. The challenge was clear—he had to leap across the gap to reach the other side.",
+        "With a deep breath, Dima sprinted toward the edge and leaped with all his might. His heart pounded as he soared through the air, his fingers grazing the edge of the cliff.",
+        "Dima's fingers found purchase on the rocky surface, and he pulled himself to safety. Cheers echoed through the valley as he conquered the trial. The sage's voice echoed in his mind, guiding him to the next trial.",
+        "With each trial, Dima's courage grew stronger, and his spirit burned brighter. He faced challenges that tested his wits, strength, and compassion.",
+        "As Dima stands on the precipice of the final trial, the map's secrets seem within reach. Will you guide him through this ultimate trial and unveil the treasure's location?"
+      ],
+      "options": [
+        {
+          "text": "Dima's courage is unmatched. Let's conquer the final trial together.",
+          "arc": "final-trial"
+        },
+        {
+          "text": "The trials have been intense. Let's consider other paths.",
+          "arc": "reconsider"
+        }
+      ]
+    },
+    "final-trial": {
+      "title": "Revelation of the Treasure",
+      "is_start": false,
+      "story": [
+        "With unwavering determination, Dima faced the final trial, a trial of perseverance and determination. As he emerged victorious, a sense of accomplishment washed over him.",
+        "Having conquered all trials, Dima retraced the map's clues and discovered the treasure's hidden location. The treasure was not material wealth, but the knowledge and experience gained on the journey.",
+        "Dima realized that the true value of the adventure lay in the challenges he overcame, the friends he made, and the lessons he learned. The sage's wisdom and the guild's camaraderie had guided him to a priceless revelation.",
+        "As Dima looked back at his journey, he knew that his heart had grown braver, his mind wiser, and his spirit kinder. With a heart full of gratitude, he returned home, ready to share his tales with those who would listen.",
+        "And so, dear friend, the adventure of Dima Struchin came to a close, leaving a legacy of courage, wisdom, and friendship that would be remembered for generations."
+      ],
+      "options": []
+    },
+    "guild-trials": {
+      "title": "Champion of the Guild",
+      "is_start": false,
+      "story": [
+        "Dima embraced the guild's challenges with determination and camaraderie. He faced puzzles that tested his intellect, obstacle courses that demanded his agility, and teamwork exercises that forged unbreakable bonds.",
+        "Through each trial, Dima's skills grew sharper, and he found himself surrounded by fellow adventurers who shared his passion for exploration.",
+        "As the final challenge approached, Captain Elara's eyes shone with pride. \"You have proven yourself as a true champion of the guild,\" she declared. \"Now, it is time to reveal the treasure's location.\"",
+        "Guided by the knowledge gained through the guild's trials, Dima unlocked the map's secrets. The treasure was not gold or jewels, but the exhilaration of adventure and the joy of a united guild.",
+        "Dima stood among his newfound friends, gazing at the horizon with excitement. The path ahead was uncertain, but with his guildmates by his side, he was ready to face any challenge that awaited him.",
+        "And so, dear friend, the tale of Dima Struchin became a legend within the guild, inspiring generations of treasure hunters to seek adventure, forge bonds, and discover the treasures of the heart."
+      ],
+      "options": []
+    },
+    "reconsider": {
+      "title": "Exploring Other Paths",
+      "is_start": false,
+      "story": [
+        "Dima paused to reconsider his options, contemplating the paths that lay before him. The map's mysteries and the challenges they presented were both intriguing and daunting.",
+        "As he weighed his choices, a sense of purpose and determination guided him. Whether seeking the sage's wisdom or joining the guild of treasure hunters, Dima knew that the adventure ahead would shape his destiny.",
+        "With you by his side, Dima was ready to embark on any path he chose. His journey was just beginning, and the possibilities were limitless.",
+        "And so, dear friend, the adventure of Dima Struchin continued, filled with excitement, discovery, and the promise of new horizons."
+      ],
+      "options": []
+    }
+  }
+  

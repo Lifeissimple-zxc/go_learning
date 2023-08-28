@@ -3,6 +3,7 @@ package main
 import (
 	"cyoa/story"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -12,7 +13,11 @@ import (
 
 func main() {
 
-	file, err := readFile(story.STORY_PATH)
+	storyPtr := flag.String("story", story.STORY_PATH, "Path to JSON structure of the story")
+	flag.Parse()
+	fmt.Printf("Running CYOA with %s as source!\n", *storyPtr)
+
+	file, err := readFile(*storyPtr)
 	if err != nil {
 		fmt.Printf("Err opening file %s. Details: %v\n", story.STORY_PATH, err)
 		os.Exit(1)

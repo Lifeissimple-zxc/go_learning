@@ -16,6 +16,7 @@ type StoryOption struct {
 
 type StoryArc struct {
 	Title   string        `json:"title"`
+	IsStart bool          `json:"is_start"`
 	Story   []string      `json:"story"`
 	Options []StoryOption `json:"options"`
 	Tmpl    *template.Template
@@ -49,7 +50,8 @@ func (sa *StoryArc) RenderHTML(wr io.Writer) error {
 }
 
 type Story struct {
-	Arcs map[string]StoryArc `json:"-"`
+	StartArc string
+	Arcs     map[string]StoryArc `json:"-"`
 }
 
 // Story's init converts raw json to a Story struct
@@ -65,6 +67,9 @@ func (s *Story) Init(
 			return fmt.Errorf("err parsing %s data: %v", arcKey, err)
 		}
 		arcs[arcKey] = arc
+		if arc.IsStart {
+			s.StartArc = arcKey
+		}
 	}
 	s.Arcs = arcs
 	return nil

@@ -16,7 +16,7 @@ func (sr *StoryRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	cleanPath := strings.ToLower(r.URL.Path)
 	// Defaulting index path to intro
 	if cleanPath == "/" {
-		cleanPath = "/intro"
+		cleanPath = fmt.Sprintf("/%s", sr.St.StartArc)
 	}
 	fmt.Println("Got an inbond for", cleanPath)
 
