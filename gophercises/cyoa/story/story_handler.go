@@ -13,10 +13,10 @@ type StoryRouter struct {
 func (sr *StoryRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// Here we handle different paths of incoming requests
 	// path handling can be a separate function! TODO
-	cleanPath := strings.ToLower(r.URL.Path)
+	cleanPath := strings.TrimSpace(strings.ToLower(r.URL.Path))
 	// Defaulting index path to intro
-	if cleanPath == "/" {
-		cleanPath = fmt.Sprintf("/%s", sr.St.StartArc)
+	if cleanPath == "/" || cleanPath == "" {
+		cleanPath = "/" + sr.St.StartArc
 	}
 	fmt.Println("Got an inbond for", cleanPath)
 
