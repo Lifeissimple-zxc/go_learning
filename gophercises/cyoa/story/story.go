@@ -31,10 +31,7 @@ func (sa *StoryArc) Init(
 	if err := json.Unmarshal(*data, sa); err != nil {
 		return fmt.Errorf("error unmarshalling arc JSON: %v", err)
 	}
-	html, err := template.New(name).Parse(string(HTML))
-	if err != nil {
-		return fmt.Errorf("error parsing HTML template: %v", err)
-	}
+	html := template.Must(template.New(name).Parse(string(HTML)))
 	sa.Tmpl = html
 	return nil
 }
