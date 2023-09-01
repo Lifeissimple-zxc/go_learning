@@ -14,6 +14,8 @@ import (
 func main() {
 
 	storyPtr := flag.String("story", story.STORY_PATH, "Path to JSON structure of the story")
+	portPtr := flag.Int("port", 3000, "Port where our web app runs")
+
 	flag.Parse()
 	fmt.Printf("Running CYOA with %s as source!\n", *storyPtr)
 
@@ -52,7 +54,7 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fs))
 
-	log.Fatal(http.ListenAndServe(":3000", mux))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *portPtr), mux))
 }
 
 // readFile reads a file to a bytes slice
