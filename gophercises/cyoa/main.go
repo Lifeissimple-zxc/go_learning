@@ -19,14 +19,14 @@ func main() {
 	flag.Parse()
 	fmt.Printf("Running CYOA with %s as source!\n", *storyPtr)
 
-	file, err := readFile(*storyPtr)
+	file, err := os.Open(*storyPtr)
 	if err != nil {
 		fmt.Printf("Err opening file %s. Details: %v\n", story.STORY_PATH, err)
 		os.Exit(1)
 	}
 
 	var storyData map[string]json.RawMessage
-	err = json.Unmarshal(file, &storyData)
+	err = json.NewDecoder(file).Decode(&storyData)
 	if err != nil {
 		fmt.Printf("Err parsing to json. Details: %v\n", err)
 		os.Exit(1)
