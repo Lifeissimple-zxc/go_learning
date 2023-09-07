@@ -43,18 +43,8 @@ func HtmlToLinkSlice(n *html.Node, container *[]mycrawler.Link) error {
 	// Parse Node
 	if n.Type == html.ElementNode && n.Data == "a" {
 		fmt.Println("Found our guy")
-		l := mycrawler.Link{}
-		// Get Href
-		for _, a := range n.Attr {
-			if a.Key == "href" {
-				l.Href = a.Val
-				break
-			}
-		}
-		// Get Inner HTML
-		// This needs to be a recursive function because of the example provided
-		l.Text = n.FirstChild.Data
-
+		var l mycrawler.Link
+		l.NodeToLink(n)
 		// Finally append to our slice
 		*container = append(*container, l)
 	}
